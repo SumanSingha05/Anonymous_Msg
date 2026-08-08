@@ -10,9 +10,12 @@ import (
 type Config struct {
 	Port string
 	Environment string
+	DatabaseURL string
 }
 
 func LoadConfig() *Config {
+
+	databaseURL := os.Getenv("DATABASE_URL")
 
 	// Load .env file
 	err := godotenv.Load()
@@ -36,5 +39,6 @@ func LoadConfig() *Config {
 	return &Config{
 		Port:        port,
 		Environment: environment,
+		DatabaseURL: databaseURL,
 	}
 }
