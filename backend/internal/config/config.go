@@ -15,14 +15,14 @@ type Config struct {
 
 func LoadConfig() *Config {
 
-	databaseURL := os.Getenv("DATABASE_URL")
-
-	// Load .env file
+	// Load .env file before reading environment variables.
 	err := godotenv.Load()
 
 	if err != nil {
 		log.Println(".env file not found. Using system environment variables.")
 	}
+
+	databaseURL := os.Getenv("DATABASE_URL")
 
 	port := os.Getenv("PORT")
 

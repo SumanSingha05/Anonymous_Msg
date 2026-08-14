@@ -20,6 +20,8 @@ func main() {
 
 	log.Println("Database connected successfully")
 
+	database.Migrate(db)
+
 	_ = db
 	
 	router := routes.SetupRouter()
