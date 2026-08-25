@@ -4,8 +4,11 @@ import (
 	"log"
 
 	"anonymousmsg/internal/config"
-	"anonymousmsg/internal/routes"
 	"anonymousmsg/internal/database"
+	"anonymousmsg/internal/handlers"
+	"anonymousmsg/internal/repositories"
+	"anonymousmsg/internal/routes"
+	"anonymousmsg/internal/services"
 )
 
 func main() {
@@ -22,14 +25,24 @@ func main() {
 
 	database.Migrate(db)
 
-	_ = db
-	
-	router := routes.SetupRouter()
+	userRepository := repositories.NewUserRepository(db)
+	messageRepository := repositories.NewMessageRepository(db)
 
+	userService := services.NewUserService(userRepository)
+	messageService := services.NewMessageService(messageRepository, userRepository)
+
+	authHandler := handlers.NewAuthHandler(
+		userService,
+		cfg.JWTSecret,
+	)
+
+	messageHandler := handlers.NewMessageHandler(messageService)
+
+	router := routes.SetupRouter(authHandler, messageHandler, cfg.JWTSecret)
 
 	log.Printf(
 		"Server starting in %s mode on port %s",
-		cfg.Environment, 
+		cfg.Environment,
 		cfg.Port,
 	)
 

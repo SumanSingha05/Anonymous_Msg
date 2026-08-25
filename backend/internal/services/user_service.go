@@ -100,3 +100,12 @@ func (s *UserService) Login(email, password, jwtSecret string) (string, *models.
 
 	return token, user, nil
 }
+
+func (s *UserService) GetUserByUsername(username string) (*models.User, error) {
+	return s.userRepository.FindByUsername(username)
+}
+
+func (s *UserService) GetUserByID(id uint) (*models.User, error) {
+	return s.userRepository.FindByID(id)
+}
+
