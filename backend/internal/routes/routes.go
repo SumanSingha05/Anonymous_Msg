@@ -3,20 +3,27 @@ package routes
 import (
 	"net/http"
 
+	"anonymousmsg/internal/handlers"
+
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter() *gin.Engine {
-	// Create a new Gin router with Logger and Recovery middleware
+func SetupRouter(authHandler *handlers.AuthHandler) *gin.Engine {
+
 	router := gin.Default()
 
-	// Health check / Home route
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"success": true,
 			"message": "Anonymous Msg API is running",
 		})
 	})
+
+	auth := router.Group("/api/v1/auth")
+	{
+		auth.POST("/register", authHandler.Register)
+		auth.POST("/login", authHandler.Login)
+	}
 
 	return router
 }
