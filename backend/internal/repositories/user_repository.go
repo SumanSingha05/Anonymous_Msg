@@ -24,15 +24,15 @@ func (r *UserRepository) FindByEmail(email string) (*models.User, error) {
 	var user models.User
 
 	err := r.db.
-		Where("email = ?", email)
+		Where("email = ?", email).
 		First(&user).Error
+
 	if err != nil {
 		return nil, err
 	}
 
 	return &user, nil
 }
-
 func (r *UserRepository) FindByUsername(username string) (*models.User, error) {
 	var user models.User
 
@@ -46,7 +46,6 @@ func (r *UserRepository) FindByUsername(username string) (*models.User, error) {
 
 	return &user, nil
 }
-
 func (r *UserRepository) FindByID(id uint) (*models.User, error) {
 	var user models.User
 
