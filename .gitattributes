@@ -1,7 +1,7 @@
-# Exclude frontend files from GitHub language statistics
-frontend/**/* linguist-detectable=false
-frontend/* linguist-detectable=false
-dist/**/* linguist-detectable=false
-dist/* linguist-detectable=false
-tmp/**/* linguist-detectable=false
-tmp/* linguist-detectable=false
+# Mark the entire frontend as vendored/documentation so it is excluded from stats
+frontend/** linguist-vendored
+frontend/**/* linguist-vendored
+dist/** linguist-vendored
+dist/**/* linguist-vendored
+tmp/** linguist-vendored
+tmp/**/* linguist-vendored
